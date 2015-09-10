@@ -1,6 +1,6 @@
 {
-    "name": "Pie Chart [Chart.JS]",
-    "description": "Chart.JS Pie",
+    "name": "DEMO Bar Chart [Chart.JS]",
+    "description": "Chart.JS Bar Chart",
     "icon": "image",
     "type": "visualization",
     "version": "1.0",

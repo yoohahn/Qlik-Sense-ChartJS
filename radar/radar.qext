@@ -1,6 +1,6 @@
 {
-    "name": "Pie Chart [Chart.JS]",
-    "description": "Chart.JS Pie",
+    "name": "DEMO Radar Chart [Chart.JS]",
+    "description": "Chart.JS Radar",
     "icon": "image",
     "type": "visualization",
     "version": "1.0",
