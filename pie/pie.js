@@ -81,8 +81,6 @@ define( [
 
     data = prepData( layout );
     thatChart = new Chart( ctx )[ isHomerChart ? 'Doughnut' : 'Pie' ]( data, o );
-
-    window.qlayout = layout;
   }
 
   return {
