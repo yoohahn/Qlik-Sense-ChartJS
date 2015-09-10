@@ -2,5 +2,3 @@
 /node_modules/
 Chart.min.js
 Chart.js
-chart-util.js
-init-props.js

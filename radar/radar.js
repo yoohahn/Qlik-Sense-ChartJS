@@ -1,10 +1,8 @@
 define( [
   'jquery',
   './props',
-  './init-props',
-  './chart-util',
-  './Chart'
-], function ( $, props, initProp, cu, Chart ) {
+  './external/load-externals'
+], function ( $, props, externals ) {
   'use strict';
 
   //Prepare the data to the format that Chart.JS wan't it.
@@ -22,10 +20,16 @@ define( [
     };
   }
 
-  function prepData( layout ) {
+  function formatValue( val, roundValues ) {
+    if ( roundValues ) {
+      val = parseInt( val, 10 )
+    }
+    return val;
+  }
+
+  function prepData( layout, round ) {
     var data = [];
 
-    //
     if ( layout.qHyperCube && layout.qHyperCube.qDataPages[ 0 ].qMatrix ) {
       var
         i,
@@ -33,7 +37,7 @@ define( [
         len = qMatrix.length,
         color,
         highlight,
-        list = cu.sortSimple( qMatrix, 'qNum', true, true );
+        list = externals.utils.sortSimple( qMatrix, 'qNum', true, true );
 
       data.labels = [];
       data.datasets = [ getDefaultDataSet(), getDefaultDataSet() ];
@@ -41,8 +45,8 @@ define( [
       for ( i = 0; i < len; i++ ) {
         data.labels.push( list[ i ][ 0 ].qText );
 
-        data.datasets[ 0 ].label = cu.getMeasureTitle( layout, 0 );
-        data.datasets[ 1 ].label = cu.getMeasureTitle( layout, 1 );
+        data.datasets[ 0 ].label = externals.utils.getMeasureTitle( layout, 0 );
+        data.datasets[ 1 ].label = externals.utils.getMeasureTitle( layout, 1 );
 
         //TODO: Fix this so we can have more than 2 measures
         data.datasets[ 1 ].fillColor = "rgba(151,187,205,0.2)";
@@ -52,8 +56,8 @@ define( [
         data.datasets[ 1 ].pointHighlightFill = "#fff";
         data.datasets[ 1 ].pointHighlightStroke = "rgba(151,187,205,1)";
 
-        data.datasets[ 0 ].data.push( parseInt( list[ i ][ 1 ].qNum, 10 ) );
-        data.datasets[ 1 ].data.push( parseInt( list[ i ][ 2 ].qNum, 10 ) );
+        data.datasets[ 0 ].data.push( formatValue( list[ i ][ 1 ].qNum, round ) );
+        data.datasets[ 1 ].data.push( formatValue( list[ i ][ 2 ].qNum, round ) );
       }
     }
     return data;
@@ -61,15 +65,17 @@ define( [
 
   function render( $element, layout, options ) {
     var
-      ctx = cu.prepChartArea( $element, layout ),
-      o = cu.prepOptions( options ),
-      data = prepData( layout );
+      ctx = externals.utils.prepChartArea( $element, layout ),
+      round = layout.props.chartRound,
+      o = externals.utils.prepOptions( options ),
+      data = prepData( layout, round );
+
     new Chart( ctx ).Radar( data, o );
   }
 
   return {
     definition: props,
-    initialProperties: initProp,
+    initialProperties: externals.initProp,
     snapshot: {
       canTakeSnapshot: true
     },

@@ -7,8 +7,11 @@ define( [
     responsive: true
   };
   return {
+    getMeasureTitle: function ( layout, index ) {
+      return layout.qHyperCube.qMeasureInfo[ index ].qFallbackTitle;
+    },
     generateHls: function ( i, len, highlight ) {
-      return 'hsl(' + ( 360 * i / len ) + ', 50%, ' + ( highlight ? '50' : '40' ) + '%)';
+      return 'hsl(' + ( 360 * i / len ) + ', 60%, ' + ( highlight ? '55' : '65' ) + '%)';
     },
     getRowDataSimple: function ( row, color, highlight ) {
       var rowData = {};
@@ -20,9 +23,15 @@ define( [
 
       return rowData;
     },
-    sortSimple: function ( list, name, revers ) {
+    sortSimple: function ( list, name, revers, multiMeasure ) {
       list = list.sort( function ( a, b ) {
-        return a[ name ] - b[ name ];
+        var sortA = a[ name ],
+          sortB = b[ name ];
+        if ( multiMeasure ) {
+          sortA = a[ 0 ][ name ];
+          sortB = b[ 0 ][ name ];
+        }
+        return sortA - sortB;
       } );
 
       if ( revers ) {

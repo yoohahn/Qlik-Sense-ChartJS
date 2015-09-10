@@ -1,10 +1,8 @@
 define( [
   'jquery',
   './props',
-  './init-props',
-  './chart-util',
-  './Chart'
-], function ( $, props, initProp, cu, Chart ) {
+  './external/load-externals'
+], function ( $, props, externals ) {
   'use strict';
 
   //Prepare the data to the format that Chart.JS wan't it.
@@ -20,30 +18,29 @@ define( [
         highlight;
 
       for ( i = 0; i < len; i++ ) {
-        color = cu.generateHls( i, len, false );
-        highlight = cu.generateHls( i, len, true );
-        data.push( cu.getRowDataSimple( qMatrix[ i ], color, highlight ) );
+        color = externals.utils.generateHls( i, len, false );
+        highlight = externals.utils.generateHls( i, len, true );
+        data.push( externals.utils.getRowDataSimple( qMatrix[ i ], color, highlight ) );
       }
     }
 
-    return cu.sortSimple( data, 'value', true );
+    return externals.utils.sortSimple( data, 'value', true );
   }
 
   //Render the chart
   function render( $element, layout, options ) {
     var
-      ctx = cu.prepChartArea( $element, layout ),
+      ctx = externals.utils.prepChartArea( $element, layout ),
       isDoughnut = layout.props.chartDoughnut,
-      o = cu.prepOptions( options ),
-      data = prepData( layout ),
-      thatChart;
+      o = externals.utils.prepOptions( options ),
+      data = prepData( layout );
 
-    thatChart = new Chart( ctx )[ isDoughnut ? 'Doughnut' : 'Pie' ]( data, o );
+    new Chart( ctx )[ isDoughnut ? 'Doughnut' : 'Pie' ]( data, o );
   }
 
   return {
     definition: props,
-    initialProperties: initProp,
+    initialProperties: externals.initProp,
     snapshot: {
       canTakeSnapshot: true
     },

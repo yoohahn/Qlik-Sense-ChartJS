@@ -9,10 +9,24 @@ define( [], function () {
     measures = {
       uses: "measures",
       min: 1,
-      max: 1
+      max: 2
     },
     sorting = {
       uses: "sorting"
+    },
+    roundValues = {
+      ref: "props.chartRound",
+      type: "boolean",
+      component: "switch",
+      label: "Round values",
+      options: [ {
+        value: true,
+        label: "On"
+      }, {
+        value: false,
+        label: "Off"
+      } ],
+      defaultValue: false
     },
     propertyPanel = {
       uses: "settings",
@@ -21,7 +35,7 @@ define( [], function () {
           type: "items",
           label: "Presentation",
           items: {
-
+            roundValues: roundValues
           }
         }
       }
