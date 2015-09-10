@@ -1,0 +1,14 @@
+{
+  "name": "myViz",
+  "version": "0.0.1",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "Chart.js": "1.0.2"
+  }
+}

@@ -1,0 +1,9 @@
+{
+    "name": "PieChartJs",
+    "description": "Chart.JS Pie",
+    "icon": "image",
+    "type": "visualization",
+    "version": "1.0",
+    "preview": "image",
+    "author": "Johan Nilsson"
+}
