@@ -1,32 +1,12 @@
 define( [
   'jquery',
   './props',
+  './init-props',
+  './chart-util',
   './Chart'
-], function ( $, props, Chart ) {
+], function ( $, props, initProp, cu, Chart ) {
   'use strict';
 
-  var initProp = {
-    qHyperCubeDef: {
-      qDimensions: [],
-      qMeasures: [],
-
-      qInitialDataFetch: [ {
-        qWidth: 3,
-        qHeight: 100
-      } ]
-    }
-  };
-
-  function getRowData( row, hue ) {
-    var rowData = {};
-
-    rowData.label = row[ 0 ].qText;
-    rowData.value = row[ 1 ].qNum;
-    rowData.color = 'hsl(' + hue + ', 50%, 40%)';
-    rowData.highlight = 'hsl(' + hue + ', 50%, 30%)';
-
-    return rowData;
-  }
   //Prepare the data to the format that Chart.JS wan't it.
   function prepData( layout ) {
     var data = [];
@@ -35,51 +15,29 @@ define( [
       var
         i,
         qMatrix = layout.qHyperCube.qDataPages[ 0 ].qMatrix,
-        len = qMatrix.length;
+        len = qMatrix.length,
+        color,
+        highlight;
 
       for ( i = 0; i < len; i++ ) {
-        data.push( getRowData( qMatrix[ i ], ( 360 * i / len ) ) );
+        color = cu.generateHls( i, len, false );
+        highlight = cu.generateHls( i, len, true );
+        data.push( cu.getRowDataSimple( qMatrix[ i ], color, highlight ) );
       }
     }
 
-    //Dummy data to se if the chart works
-    return data.sort( function ( a, b ) {
-      return a.value < b.value;
-    } );
+    return cu.sortSimple( data, 'value', true );
   }
 
-  function setDefaultOptions() {
-    return {
-      animation: true,
-      responsive: true
-    };
-  }
-
+  //Render the chart
   function render( $element, layout, options ) {
     var
-      id = 'chartjs_' + layout.qInfo.qId,
-      canvas = document.createElement( 'canvas' ),
-      canvasJq,
-      ctx,
-      thatChart,
+      ctx = cu.prepChartArea( $element, layout ),
       isDoughnut = layout.props.chartDoughnut,
-      data,
-      o;
+      o = cu.prepOptions( options ),
+      data = prepData( layout ),
+      thatChart;
 
-    o = setDefaultOptions();
-    for ( var key in options ) {
-      o[ key ] = options[ key ];
-    }
-    //Prep the canvas
-    canvas.id = id;
-    canvas.width = $element.width();
-    canvas.height = $element.height();
-
-    //Get the canvas and get the ctx.
-    canvasJq = $( canvas ).appendTo( $element.empty() );
-    ctx = canvasJq.get( 0 ).getContext( "2d" );
-
-    data = prepData( layout );
     thatChart = new Chart( ctx )[ isDoughnut ? 'Doughnut' : 'Pie' ]( data, o );
   }
 
