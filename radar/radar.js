@@ -1,70 +1,70 @@
 define( [
   'jquery',
   './props',
+  './init-props',
+  './chart-util',
   './Chart'
-], function ( $, props, Chart ) {
+], function ( $, props, initProp, cu, Chart ) {
   'use strict';
 
-  var initProp = {
-    qHyperCubeDef: {
-      qDimensions: [],
-      qMeasures: [],
-
-      qInitialDataFetch: [ {
-        qWidth: 3,
-        qHeight: 100
-      } ]
-    }
-  };
-
-  function setDefaultOptions() {
+  //Prepare the data to the format that Chart.JS wan't it.
+  function getDefaultDataSet() {
+    //TODO: Remove static colors and calculate them instead.
     return {
-      animation: false,
-      responsive: true
+      label: "",
+      fillColor: "rgba(220,220,220,0.2)",
+      strokeColor: "rgba(220,220,220,1)",
+      pointColor: "rgba(220,220,220,1)",
+      pointStrokeColor: "#fff",
+      pointHighlightFill: "#fff",
+      pointHighlightStroke: "rgba(220,220,220,1)",
+      data: []
     };
+  }
+
+  function prepData( layout ) {
+    var data = [];
+
+    //
+    if ( layout.qHyperCube && layout.qHyperCube.qDataPages[ 0 ].qMatrix ) {
+      var
+        i,
+        qMatrix = layout.qHyperCube.qDataPages[ 0 ].qMatrix,
+        len = qMatrix.length,
+        color,
+        highlight,
+        list = cu.sortSimple( qMatrix, 'qNum', true, true );
+
+      data.labels = [];
+      data.datasets = [ getDefaultDataSet(), getDefaultDataSet() ];
+
+      for ( i = 0; i < len; i++ ) {
+        data.labels.push( list[ i ][ 0 ].qText );
+
+        data.datasets[ 0 ].label = cu.getMeasureTitle( layout, 0 );
+        data.datasets[ 1 ].label = cu.getMeasureTitle( layout, 1 );
+
+        //TODO: Fix this so we can have more than 2 measures
+        data.datasets[ 1 ].fillColor = "rgba(151,187,205,0.2)";
+        data.datasets[ 1 ].strokeColor = "rgba(151,187,205,1)";
+        data.datasets[ 1 ].pointColor = "rgba(151,187,205,1)";
+        data.datasets[ 1 ].pointStrokeColor = "#fff";
+        data.datasets[ 1 ].pointHighlightFill = "#fff";
+        data.datasets[ 1 ].pointHighlightStroke = "rgba(151,187,205,1)";
+
+        data.datasets[ 0 ].data.push( parseInt( list[ i ][ 1 ].qNum, 10 ) );
+        data.datasets[ 1 ].data.push( parseInt( list[ i ][ 2 ].qNum, 10 ) );
+      }
+    }
+    return data;
   }
 
   function render( $element, layout, options ) {
     var
-      id = 'chartjs_' + layout.qInfo.qId,
-      canvas = document.createElement( 'canvas' ),
-      canvasJq,
-      ctx,
-      thatChart,
-      data;
-    //Prep the canvas
-    canvas.id = id;
-    canvas.width = $element.width();
-    canvas.height = $element.height();
-
-    //Get the canvas and get the ctx.
-    canvasJq = $( canvas ).appendTo( $element.empty() );
-    ctx = canvasJq.get( 0 ).getContext( "2d" );
-
-    data = {
-      labels: [ "January", "February", "March", "April", "May", "June", "July" ],
-      datasets: [ {
-        label: "My First dataset",
-        fillColor: "rgba(220,220,220,0.2)",
-        strokeColor: "rgba(220,220,220,1)",
-        pointColor: "rgba(220,220,220,1)",
-        pointStrokeColor: "#fff",
-        pointHighlightFill: "#fff",
-        pointHighlightStroke: "rgba(220,220,220,1)",
-        data: [ 65, 59, 80, 81, 56, 55, 40 ]
-      }, {
-        label: "My Second dataset",
-        fillColor: "rgba(151,187,205,0.2)",
-        strokeColor: "rgba(151,187,205,1)",
-        pointColor: "rgba(151,187,205,1)",
-        pointStrokeColor: "#fff",
-        pointHighlightFill: "#fff",
-        pointHighlightStroke: "rgba(151,187,205,1)",
-        data: [ 28, 48, 40, 19, 86, 27, 90 ]
-      } ]
-    };
-
-    thatChart = new Chart( ctx ).Radar( data, setDefaultOptions() );
+      ctx = cu.prepChartArea( $element, layout ),
+      o = cu.prepOptions( options ),
+      data = prepData( layout );
+    new Chart( ctx ).Radar( data, o );
   }
 
   return {
