@@ -1,6 +1,5 @@
 define( [], function () {
   'use strict';
-
   var
     dimensions = {
       uses: "dimensions",

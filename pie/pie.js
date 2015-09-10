@@ -62,7 +62,7 @@ define( [
       canvasJq,
       ctx,
       thatChart,
-      isHomerChart = layout.props.chartDoughnut,
+      isDoughnut = layout.props.chartDoughnut,
       data,
       o;
 
@@ -80,7 +80,7 @@ define( [
     ctx = canvasJq.get( 0 ).getContext( "2d" );
 
     data = prepData( layout );
-    thatChart = new Chart( ctx )[ isHomerChart ? 'Doughnut' : 'Pie' ]( data, o );
+    thatChart = new Chart( ctx )[ isDoughnut ? 'Doughnut' : 'Pie' ]( data, o );
   }
 
   return {

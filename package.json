@@ -1,7 +1,7 @@
 {
-	"name": "myViz",
-	"version": "0.0.1",
-	"description": "Qlik Sense ChartJS Viz",
+	"name": "Chart.JS",
+	"version": "0.1.0",
+	"description": "Qlik Sense ChartJS",
 	"author": "Johan Nilsson <yoohahn@gmail.com>",
 	"license": "MIT",
 	"devDependencies": {
