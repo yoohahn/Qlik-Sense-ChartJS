@@ -13,16 +13,6 @@ define( [
     generateHls: function ( i, len, highlight ) {
       return 'hsl(' + ( 360 * i / len ) + ', 60%, ' + ( highlight ? '55' : '65' ) + '%)';
     },
-    getRowDataSimple: function ( row, color, highlight ) {
-      var rowData = {};
-
-      rowData.label = row[ 0 ].qText;
-      rowData.value = row[ 1 ].qNum;
-      rowData.color = color;
-      rowData.highlight = highlight;
-
-      return rowData;
-    },
     sortSimple: function ( list, name, revers, multiMeasure ) {
       list = list.sort( function ( a, b ) {
         var sortA = a[ name ],
