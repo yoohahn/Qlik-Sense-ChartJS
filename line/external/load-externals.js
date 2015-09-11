@@ -1,12 +1,10 @@
 define( [
   './chart-util',
   './init-props',
-  './colorbrew',
   './Chart'
-], function ( utils, initProp, colorbrew ) {
+], function ( utils, initProp ) {
   return {
     utils: utils,
-    initProp: initProp,
-		colorbrew: colorbrew
+    initProp: initProp
   };
 } );

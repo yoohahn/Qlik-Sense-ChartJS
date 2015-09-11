@@ -14,6 +14,20 @@ define( [], function () {
     sorting = {
       uses: "sorting"
     },
+    roundValues = {
+      ref: "props.chartRound",
+      type: "boolean",
+      component: "switch",
+      label: "Round values",
+      options: [ {
+        value: true,
+        label: "On"
+      }, {
+        value: false,
+        label: "Off"
+      } ],
+      defaultValue: false
+    },
     doughnut = {
       ref: "props.chartDoughnut",
       type: "boolean",
@@ -35,7 +49,8 @@ define( [], function () {
           type: "items",
           label: "Presentation",
           items: {
-            doughnut: doughnut
+            doughnut: doughnut,
+            roundValues: roundValues
           }
         }
       }
