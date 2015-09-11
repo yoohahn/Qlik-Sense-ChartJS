@@ -7,15 +7,14 @@ define( [
 
   //Prepare the data to the format that Chart.JS wan't it.
   function getDefaultDataSet() {
-    //TODO: Remove static colors and calculate them instead.
     return {
       label: "",
-      fillColor: "rgba(220,220,220,0.2)",
-      strokeColor: "rgba(220,220,220,1)",
-      pointColor: "rgba(220,220,220,1)",
-      pointStrokeColor: "#fff",
-      pointHighlightFill: "#fff",
-      pointHighlightStroke: "rgba(220,220,220,1)",
+      fillColor: "",
+      strokeColor: "",
+      pointColor: "",
+      pointStrokeColor: "",
+      pointHighlightFill: "",
+      pointHighlightStroke: "",
       data: []
     };
   }
@@ -33,31 +32,37 @@ define( [
     if ( layout.qHyperCube && layout.qHyperCube.qDataPages[ 0 ].qMatrix ) {
       var
         i,
+        x,
         qMatrix = layout.qHyperCube.qDataPages[ 0 ].qMatrix,
         len = qMatrix.length,
+        dataSetLen = qMatrix[ 0 ].length - 1,
         color,
         highlight,
         list = externals.utils.sortSimple( qMatrix, 'qNum', true, true );
 
       data.labels = [];
-      data.datasets = [ getDefaultDataSet(), getDefaultDataSet() ];
+      data.datasets = [];
+
+      //Create the ammount of dataSetList we need
+      for ( x = 0; x < dataSetLen; x++ ) {
+        data.datasets.push( getDefaultDataSet() );
+      }
 
       for ( i = 0; i < len; i++ ) {
         data.labels.push( list[ i ][ 0 ].qText );
 
-        data.datasets[ 0 ].label = externals.utils.getMeasureTitle( layout, 0 );
-        data.datasets[ 1 ].label = externals.utils.getMeasureTitle( layout, 1 );
+        for ( x = 0; x < dataSetLen; x++ ) {
+          data.datasets[ x ].label = externals.utils.getMeasureTitle( layout, x );
 
-        //TODO: Fix this so we can have more than 2 measures
-        data.datasets[ 1 ].fillColor = "rgba(151,187,205,0.2)";
-        data.datasets[ 1 ].strokeColor = "rgba(151,187,205,1)";
-        data.datasets[ 1 ].pointColor = "rgba(151,187,205,1)";
-        data.datasets[ 1 ].pointStrokeColor = "#fff";
-        data.datasets[ 1 ].pointHighlightFill = "#fff";
-        data.datasets[ 1 ].pointHighlightStroke = "rgba(151,187,205,1)";
+          data.datasets[ x ].fillColor = externals.utils.convertHexToRgba( externals.colorbrew.PuOr[ 5 ][ x === 0 ? 1 : 4 ], 20 );
+          data.datasets[ x ].strokeColor = externals.colorbrew.PuOr[ 5 ][ x === 0 ? 0 : 3 ];
+          data.datasets[ x ].pointColor = externals.colorbrew.PuOr[ 5 ][ x === 0 ? 0 : 3 ];
+          data.datasets[ x ].pointStrokeColor = "#fff";
+          data.datasets[ x ].pointHighlightFill = "#fff";
+          data.datasets[ x ].pointHighlightStroke = externals.colorbrew.PuOr[ 5 ][ x === 0 ? 0 : 3 ];
 
-        data.datasets[ 0 ].data.push( formatValue( list[ i ][ 1 ].qNum, round ) );
-        data.datasets[ 1 ].data.push( formatValue( list[ i ][ 2 ].qNum, round ) );
+          data.datasets[ x ].data.push( formatValue( list[ i ][ x ].qNum, round ) );
+        }
       }
     }
     return data;

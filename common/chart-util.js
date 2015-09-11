@@ -7,6 +7,15 @@ define( [
     responsive: true
   };
   return {
+    convertHexToRgba: function ( hex, opacity ) {
+      var r, g, b;
+      hex = hex.replace( '#', '' );
+      r = parseInt( hex.substring( 0, 2 ), 16 );
+      g = parseInt( hex.substring( 2, 4 ), 16 );
+      b = parseInt( hex.substring( 4, 6 ), 16 );
+
+      return 'rgba(' + r + ',' + g + ',' + b + ',' + opacity / 100 + ')';
+    },
     getMeasureTitle: function ( layout, index ) {
       var o = layout.qHyperCube.qMeasureInfo[ index ] || {};
       return o.qFallbackTitle || "";

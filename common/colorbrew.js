@@ -1,6 +1,6 @@
 define( [], function () {
 	'use strict';
-
+// This product includes color specifications and designs developed by Cynthia Brewer (http://colorbrewer.org/).
 	return {
 		YlGn: {
 			3: ["#f7fcb9", "#addd8e", "#31a354"],
