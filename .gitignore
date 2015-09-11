@@ -2,3 +2,4 @@
 /node_modules/
 Chart.min.js
 Chart.js
+**/external/*
