@@ -42,7 +42,7 @@ define( [
       var o = layout.qHyperCube.qMeasureInfo[ index ] || {};
       return o.qFallbackTitle || "";
     },
-    generateHls: function ( i, len, highlight ) {
+    generateHsl: function ( i, len, highlight ) {
       return 'hsl(' + ( 360 * i / len ) + ', 60%, ' + ( highlight ? '55' : '65' ) + '%)';
     },
     sortSimple: function ( list, name, revers, multiMeasure ) {
@@ -76,8 +76,8 @@ define( [
 
         for ( i = 0; i < len; i++ ) {
           var rowData = {};
-          color = self.generateHls( i, len, false );
-          highlight = self.generateHls( i, len, true );
+          color = self.generateHsl( i, len, false );
+          highlight = self.generateHsl( i, len, true );
 
           rowData.label = qMatrix[ i ][ 0 ].qText;
           rowData.value = formatValue( qMatrix[ i ][ 1 ].qNum, round );
