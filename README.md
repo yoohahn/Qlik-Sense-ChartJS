@@ -10,8 +10,4 @@ Render Chart.JS charts in Qlik Sense
 Automate the installation steps.
 
 ## Preview
-![Bar Chart](/images/bar.png?raw=true "Bar Chart")
-![Line Chart](/images/line.png?raw=true "Line Chart")
-![Pie Chart](/images/pie.png?raw=true "Pie Chart")
-![Polar Chart](/images/polar.png?raw=true "Polar Chart")
-![Radar Chart](/images/radar.png?raw=true "Radar Chart")
+![All Charts](/images/all.png?raw=true "All Charts")
