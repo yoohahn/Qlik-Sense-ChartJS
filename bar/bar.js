@@ -38,7 +38,7 @@ define( [
 
   return {
     definition: props,
-    initialProperties: initProp,
+    initialProperties: externals.initProp,
     snapshot: {
       canTakeSnapshot: true
     },
