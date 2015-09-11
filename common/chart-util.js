@@ -8,7 +8,8 @@ define( [
   };
   return {
     getMeasureTitle: function ( layout, index ) {
-      return layout.qHyperCube.qMeasureInfo[ index ].qFallbackTitle;
+      var o = layout.qHyperCube.qMeasureInfo[ index ] || {};
+      return o.qFallbackTitle || "";
     },
     generateHls: function ( i, len, highlight ) {
       return 'hsl(' + ( 360 * i / len ) + ', 60%, ' + ( highlight ? '55' : '65' ) + '%)';

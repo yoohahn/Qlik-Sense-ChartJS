@@ -8,7 +8,7 @@ define( [], function () {
     },
     measures = {
       uses: "measures",
-      min: 1,
+      min: 2,
       max: 2
     },
     sorting = {

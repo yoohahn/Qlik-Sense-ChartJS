@@ -8,7 +8,6 @@ define( [
   function render( $element, layout, options ) {
     var
       ctx = externals.utils.prepChartArea( $element, layout ),
-      round = layout.props.chartRound,
       o = externals.utils.prepOptions( options ),
       data = {
         labels: [ "January", "February", "March", "April", "May", "June", "July" ],
@@ -33,7 +32,7 @@ define( [
         } ]
       };
 
-    thatChart = new Chart( ctx ).Bar( data, o );
+    new Chart( ctx ).Bar( data, o );
   }
 
   return {

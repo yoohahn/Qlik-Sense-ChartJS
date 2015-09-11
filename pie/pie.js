@@ -18,9 +18,16 @@ define( [
         highlight;
 
       for ( i = 0; i < len; i++ ) {
+        var rowData = {};
         color = externals.utils.generateHls( i, len, false );
         highlight = externals.utils.generateHls( i, len, true );
-        data.push( externals.utils.getRowDataSimple( qMatrix[ i ], color, highlight ) );
+
+        rowData.label = qMatrix[ i ][ 0 ].qText;
+        rowData.value = qMatrix[ i ][ 1 ].qNum;
+        rowData.color = color;
+        rowData.highlight = highlight;
+
+        data.push( rowData );
       }
     }
 
