@@ -131,7 +131,7 @@ define( [
             data.datasets[ x ].pointHighlightFill = pointStroke;
             data.datasets[ x ].pointHighlightStroke = stroke;
 
-            data.datasets[ x ].data.push( formatValue( list[ i ][ x ].qNum, round ) );
+            data.datasets[ x ].data.push( formatValue( list[ i ][ x + 1 ].qNum, round ) );
           }
         }
       }
