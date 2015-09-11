@@ -33,11 +33,12 @@ define( [
       var
         i,
         x,
+        color,
+        highlight,
+        pointStroke = "#fff",
         qMatrix = layout.qHyperCube.qDataPages[ 0 ].qMatrix,
         len = qMatrix.length,
         dataSetLen = qMatrix[ 0 ].length - 1,
-        color,
-        highlight,
         list = externals.utils.sortSimple( qMatrix, 'qNum', true, true );
 
       data.labels = [];
@@ -52,14 +53,18 @@ define( [
         data.labels.push( list[ i ][ 0 ].qText );
 
         for ( x = 0; x < dataSetLen; x++ ) {
+          var
+            fill = externals.utils.convertHexToRgba( externals.colorbrew.PuOr[ 5 ][ x === 0 ? 1 : 4 ], 20 ),
+            stroke = externals.utils.convertHexToRgba( externals.colorbrew.PuOr[ 5 ][ x === 0 ? 0 : 3 ], 50 );
+
           data.datasets[ x ].label = externals.utils.getMeasureTitle( layout, x );
 
-          data.datasets[ x ].fillColor = externals.utils.convertHexToRgba( externals.colorbrew.PuOr[ 5 ][ x === 0 ? 1 : 4 ], 20 );
-          data.datasets[ x ].strokeColor = externals.colorbrew.PuOr[ 5 ][ x === 0 ? 0 : 3 ];
-          data.datasets[ x ].pointColor = externals.colorbrew.PuOr[ 5 ][ x === 0 ? 0 : 3 ];
-          data.datasets[ x ].pointStrokeColor = "#fff";
-          data.datasets[ x ].pointHighlightFill = "#fff";
-          data.datasets[ x ].pointHighlightStroke = externals.colorbrew.PuOr[ 5 ][ x === 0 ? 0 : 3 ];
+          data.datasets[ x ].fillColor = fill;
+          data.datasets[ x ].strokeColor = stroke;
+          data.datasets[ x ].pointColor = stroke;
+          data.datasets[ x ].pointStrokeColor = pointStroke;
+          data.datasets[ x ].pointHighlightFill = pointStroke;
+          data.datasets[ x ].pointHighlightStroke = stroke;
 
           data.datasets[ x ].data.push( formatValue( list[ i ][ x ].qNum, round ) );
         }
