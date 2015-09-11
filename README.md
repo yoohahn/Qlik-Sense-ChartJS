@@ -2,7 +2,7 @@
 Render Chart.JS charts in Qlik Sense
 
 ## Install
-* brew install
+* bower install
 * copy Chart.js from bower_component into externals folder for the chart.
 * copy all files from common into externals folder for the chart.
 
