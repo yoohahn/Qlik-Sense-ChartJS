@@ -47,11 +47,15 @@ define( [
     },
     sortSimple: function ( list, name, revers, multiMeasure ) {
       list = list.sort( function ( a, b ) {
-        var sortA = a[ name ],
-          sortB = b[ name ];
+        var sortA = a[ name[ 0 ] ],
+          sortB = b[ name[ 0 ] ];
         if ( multiMeasure ) {
-          sortA = a[ 0 ][ name ];
-          sortB = b[ 0 ][ name ];
+          sortA = a[ 0 ][ name[ 0 ] ];
+          sortB = b[ 0 ][ name[ 0 ] ];
+          if ( isNaN( sortA ) ) {
+            sortA = a[ 0 ][ name[ 1 ] ];
+            sortB = b[ 0 ][ name[ 1 ] ];
+          }
         }
         return sortA - sortB;
       } );
@@ -88,7 +92,7 @@ define( [
         }
       }
 
-      return self.sortSimple( data, 'value', true );
+      return self.sortSimple( data, [ 'value' ], true );
     },
     prepMultiMeasureCharts: function prepData( layout, round ) {
       var data = [];
@@ -104,7 +108,7 @@ define( [
           qMatrix = layout.qHyperCube.qDataPages[ 0 ].qMatrix,
           len = qMatrix.length,
           dataSetLen = qMatrix[ 0 ].length - 1,
-          list = self.sortSimple( qMatrix, 'qNum', true, true );
+          list = self.sortSimple( qMatrix, [ 'qNum', 'qElemNumber' ], true, true );
 
         data.labels = [];
         data.datasets = [];

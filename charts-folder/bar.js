@@ -1,6 +1,6 @@
 define( [
   'jquery',
-  './props',
+  './props-bar',
   './external/load-externals'
 ], function ( $, props, externals ) {
   'use strict';

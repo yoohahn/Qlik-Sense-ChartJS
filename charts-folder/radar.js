@@ -1,6 +1,6 @@
 define( [
   'jquery',
-  './props',
+  './props-radar',
   './external/load-externals'
 ], function ( $, props, externals ) {
   'use strict';
@@ -12,7 +12,7 @@ define( [
       o = externals.utils.prepOptions( options ),
       data = externals.utils.prepMultiMeasureCharts( layout, round );
 
-    new Chart( ctx ).Line( data, o );
+    new Chart( ctx ).Radar( data, o );
   }
 
   return {
